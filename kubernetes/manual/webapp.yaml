@@ -1,0 +1,37 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+  labels: # Identifiant supplémentaire (non obigatoire au niveau du Deployment)
+    app: webapp
+spec:
+  replicas: 1 # Ici on spécifie combien de Pods on veut
+  selector: # Aide K8s à identifier les Pods appartenant à ce Deployment
+    matchLabels:
+      app: webapp
+  template: # Ici, on défini le POD
+    metadata:
+      labels: # Identifiant supplémentaire (obligatoire pour le Pod)
+        app: webapp
+    spec:
+      containers:
+        - name: webapp
+          image: angelrafael/applications-kube-starter-webapp:1.0
+          ports:
+            - containerPort: 80
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  # type: NodePort # Le type par défaut est CluesterIP. NodePort est un type de port externe
+  selector:
+    app: webapp
+  ports:
+    - protocol: TCP
+      port: 80 # Un port de notre choix -> il s'agit du port exposé
+      targetPort: 80 # Le port du Pod du service
+      # nodePort: 31000 # Expose le service sur l'IP de chaque node sur une URL statique. Entre 30000 & 32767 !

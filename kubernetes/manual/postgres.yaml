@@ -1,0 +1,48 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  labels: # Identifiant supplémentaire (non obigatoire au niveau du Deployment)
+    app: postgres
+spec:
+  replicas: 1 # Ici on spécifie combien de Pods on veut
+  selector: # Aide K8s à identifier les Pods appartenant à ce Deployment
+    matchLabels:
+      app: postgres
+  template: # Ici, on défini le POD
+    metadata:
+      labels: # Identifiant supplémentaire (obligatoire pour le Pod)
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:14.24
+          ports:
+            - containerPort: 5432
+          env: # Ici on va reférencer nos secrets
+            - name: POSTGRES_USER # Nom de la variable d'environement
+              valueFrom: # Par défaut la ligne s'appel 'value'
+                secretKeyRef:
+                  name: postgres-secret # Nom de notre secret
+                  key: postgres-user # Nom de la valeur dans notre secret
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-password
+            - name: POSTGRES_DB
+              value: messages
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service # Il s'agit du endpoint d'accès spécifié aussi dans postgres-config
+spec:
+  selector:
+    app: postgres
+  ports:
+    - protocol: TCP
+      port: 5432 # Un port de notre choix -> il s'agit du port exposé
+      targetPort: 5432 # Le port du Pod du service

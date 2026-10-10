@@ -1,0 +1,51 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  labels: # Identifiant supplémentaire (non obigatoire au niveau du Deployment)
+    app: api
+spec:
+  replicas: 1 # Ici on spécifie combien de Pods on veut
+  selector: # Aide K8s à identifier les Pods appartenant à ce Deployment
+    matchLabels:
+      app: api
+  template: # Ici, on défini le POD
+    metadata:
+      labels: # Identifiant supplémentaire (obligatoire pour le Pod)
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: angelrafael/applications-kube-starter-api:1.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-user
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-password
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres-url
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+spec:
+  selector:
+    app: api
+  ports:
+    - protocol: TCP
+      port: 8080 # Un port de notre choix -> il s'agit du port exposé
+      targetPort: 8080 # Le port du Pod du service

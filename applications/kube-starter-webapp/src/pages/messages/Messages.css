@@ -1,0 +1,51 @@
+.messages-main-container {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.messages-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  margin: 5rem;
+}
+
+.messages-title {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.message-input .MuiInputBase-input {
+  color: ivory;
+}
+
+.message-input .MuiInputLabel-root {
+  color: ivory;
+}
+
+.message-input .MuiOutlinedInput-root fieldset {
+  border-color: ivory;
+}
+
+.message-input .MuiOutlinedInput-root:hover fieldset {
+  border-color: ivory;
+}
+
+.message-input .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: ivory;
+}
+
+.message-input .MuiInputLabel-root.Mui-focused {
+  color: ivory;
+}
+
+.response-message {
+  color: #00ff00;
+}

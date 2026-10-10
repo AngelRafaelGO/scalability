@@ -1,0 +1,36 @@
+services:
+  kube-db-demo:
+    container_name: kube-db-demo
+    image: postgres
+    restart: always
+    volumes:
+      - kube-db-demo:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: kube
+      POSTGRES_PASSWORD: kube
+      POSTGRES_DB: kube-db
+    ports:
+      - 5432:5432
+
+  kube-starter-api:
+    container_name: kube-starter-api
+    build:
+      context: ./kube-starter-api
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kube-db-demo  
+
+  kube-starter-webapp:
+    container_name: kube-starter-webapp
+    build:
+      context: ./kube-starter-webapp
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "5173:80"
+
+volumes:
+  kube-db-demo:
