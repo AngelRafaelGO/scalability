@@ -1,10 +1,11 @@
-# Deployment
+# Pratique courrante : Deployment & Service dans le même script
+# Ici, il s'agit d'un exemple, pour une vraie BDD on utilise StatefullSet
 apiVersion: apps/v1
-kind: Deployment
+kind: Deployment # Notre bluprint pour nos Pods
 metadata:
   name: postgres-deployment
   labels: # Identifiant supplémentaire (non obigatoire au niveau du Deployment)
-    app: postgres
+    app: postgres # la clé est 'app', mais ça peut être autre nom
 spec:
   replicas: 1 # Ici on spécifie combien de Pods on veut
   selector: # Aide K8s à identifier les Pods appartenant à ce Deployment
@@ -32,7 +33,13 @@ spec:
                   name: postgres-secret
                   key: postgres-password
             - name: POSTGRES_DB
-              value: messages
+              value: messages # On peut aussi juste écrire la valeur souhaitée en utilisant 'value'
+            # Example de valeur prise depuis un configMap :
+            # - name : MA_VARIABLE
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: le-nom-de-mon-config-map
+            #       key: le-nom-de-ma-variable
 ---
 # Service
 apiVersion: v1
@@ -40,7 +47,7 @@ kind: Service
 metadata:
   name: postgres-service # Il s'agit du endpoint d'accès spécifié aussi dans postgres-config
 spec:
-  selector:
+  selector: # Le service nécesite de rediriger le trafique vers les bons pods
     app: postgres
   ports:
     - protocol: TCP

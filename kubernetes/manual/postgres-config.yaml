@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: postgres-config
 data:
-  postgres-url: r2dbc:postgresql://postgres-service:5432/messages # Ici, on écrit le nom du service donné à notre BDD
+  postgres-url: r2dbc:postgresql://postgres-service:5432/messages # Ici on écrit l'URL pour la connexion BDD de notre API

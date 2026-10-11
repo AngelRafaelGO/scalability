@@ -1,20 +1,20 @@
 apiVersion: networking.k8s.io/v1
-kind: Ingress
+kind: Ingress # Permet de router le trafic HTTP/HTTPS vers les services du cluster
 metadata:
   name: app-ingress
 spec:
-  rules:
-    - host: myapp.local
-      http:
+  rules: # Liste des règles de routage HTTP
+    - host: myapp.local # Nom de domaine auquel s'appliquent les règles
+      http: # Configuration du routage HTTP
         paths:
-          - path: /api
+          - path: /api # Première règle : routage vers l'API
             pathType: Prefix
             backend:
               service:
                 name: api-service
                 port:
-                  number: 8080
-          - path: /
+                  number: 8080 # Port exposé par le Service Kubernetes
+          - path: / # Deuxième règle : routage vers l'application web
             pathType: Prefix
             backend:
               service:

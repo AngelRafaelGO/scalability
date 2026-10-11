@@ -1,12 +1,14 @@
 # Deployment
 apiVersion: apps/v1
 kind: Deployment
+# Partie 1
 metadata:
   name: webapp-deployment
   labels: # Identifiant supplémentaire (non obigatoire au niveau du Deployment)
     app: webapp
+# Partie 2
 spec:
-  replicas: 1 # Ici on spécifie combien de Pods on veut
+  replicas: 2 # Ici on spécifie combien de Pods on veut
   selector: # Aide K8s à identifier les Pods appartenant à ce Deployment
     matchLabels:
       app: webapp
@@ -20,6 +22,25 @@ spec:
           image: angelrafael/applications-kube-starter-webapp:1.0
           ports:
             - containerPort: 80
+
+
+# Partie 3 - status (générée et ajoutée par Kubernetes) -> alimenté par le etcd du Control Plane
+# status:
+#   observedGeneration: 1
+#   replicas: 2
+#   updatedReplicas: 2
+#   readyReplicas: 2
+#   availableReplicas: 2
+#   conditions:
+#     - type: Available
+#       status: "True"
+#       reason: MinimumReplicasAvailable
+#       message: Deployment has minimum availability.
+#     - type: Progressing
+#       status: "True"
+#       reason: NewReplicaSetAvailable
+#       message: ReplicaSet "webapp-deployment-abc123" has successfully progressed.
+
 ---
 # Service
 apiVersion: v1
@@ -29,9 +50,9 @@ metadata:
 spec:
   # type: NodePort # Le type par défaut est CluesterIP. NodePort est un type de port externe
   selector:
-    app: webapp
+    app: webapp # Avec ce label le service connait les pods à appeler
   ports:
     - protocol: TCP
-      port: 80 # Un port de notre choix -> il s'agit du port exposé
-      targetPort: 80 # Le port du Pod du service
+      port: 80 # Un port de notre choix -> il s'agit du port exposé du service
+      targetPort: 80 # Le port du Pod attibué au service -> doit être le même que 'containerPort'
       # nodePort: 31000 # Expose le service sur l'IP de chaque node sur une URL statique. Entre 30000 & 32767 !
