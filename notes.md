@@ -46,6 +46,8 @@ A éviter : `minikube start --nodes 10` -> très gourmande en recourses, l'ordi 
 
 `kubectl exec -it <pod name> -- /bin/bash`
 
+`kubectl logs <pod-name>`
+
 #### Lancement des applications
 
 `kubectl apply -f postgres-secret.yaml`
