@@ -38,6 +38,10 @@ A éviter : `minikube start --nodes 10` -> très gourmande en recourses, l'ordi 
 
 `kubectl get ingresss`
 
+`kubectl get configmap`
+
+`kubectl get secret`
+
 `kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 8080:80`
 
 `kubectl get pods -n ingress-nginx`
