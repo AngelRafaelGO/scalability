@@ -34,9 +34,13 @@ A éviter : `minikube start --nodes 10` -> très gourmande en recourses, l'ordi 
 
 `kubectl get pods`
 
+`kubectl get pods -A`
+
 `kubectl get services`
 
 `kubectl get ingresss`
+
+`kubectl get namespaces`
 
 `kubectl get configmap`
 
@@ -51,6 +55,8 @@ A éviter : `minikube start --nodes 10` -> très gourmande en recourses, l'ordi 
 `kubectl exec -it <pod name> -- /bin/bash`
 
 `kubectl logs <pod-name>`
+
+`kubectl get pods -n <namespace>`
 
 #### Lancement des applications
 
@@ -98,6 +104,30 @@ http://myapp.local:8080/dashboard
 
 `.\gitlab-runner.exe run`
 
+# Mis en place Argo CD
+
+`kubectl create namespace argocd`
+
+`kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml`
+
+`kubectl port-forward svc/argocd-server -n argocd 9090:443`
+
+`kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"`
+
+`[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String((kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}")))` -> décodage MDP sur Windows
+
+`kubectl apply -f <mon-composant-argo-cd>`
+
+`kubectl get application argo-cd-app -n argocd`
+
+`kubectl get application argo-cd-app -n argocd -o yaml`
+
+`kubectl get applications -n argocd`
+
+#### URL ArgoCD
+
+https://localhost:9090
+
 # Liens
 
 Repo applications TP : https://github.com/AngelRafaelGO/scalability/tree/master
@@ -118,3 +148,9 @@ Installation Minikube : https://minikube.sigs.k8s.io/docs/start/?arch=%2Fwindows
 Documentation Kubernetes : https://kubernetes.io/docs/home/
 
 Commandes kubectl : https://kubernetes.io/docs/reference/kubectl/quick-reference/
+
+Argo CD : https://argo-cd.readthedocs.io/en/stable/
+
+Documentation officielle Argo CD Githun : https://github.com/argoproj/argo-cd/blob/master/docs/getting_started.md
+
+Helm Charts : https://helm.sh/docs/topics/charts/

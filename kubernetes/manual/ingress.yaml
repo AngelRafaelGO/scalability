@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress # Permet de router le trafic HTTP/HTTPS vers les services du cluster
 metadata:
   name: app-ingress
+  # namespace: my-space
 spec:
   rules: # Liste des règles de routage HTTP
     - host: myapp.local # Nom de domaine auquel s'appliquent les règles
