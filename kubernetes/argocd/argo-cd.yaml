@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application # Ce composant est un composant custom pour donner des infos à ArgoCD -> Il s'agit donc d'une extention ajouté par ArgoCD
+metadata:
+  name: argo-cd-app
+  namespace: argocd # Le namespace où l'application ArgoCD est déployé dans notre cluster
+spec:
+  project: default # Projet par défaut ArgoCD
+  source:
+    # Les informations du repo où se trouvent nos composants kubernetes
+    repoURL: https://github.com/AngelRafaelGO/scalability.git
+    targetRevision: master
+    path: kubernetes/manual
+  destination:
+    server: https://kubernetes.default.svc # Il s'agit de du serveur API de notre Cluster
+    namespace: default # Le namespace où on veut déployer avec ArgoCD
+  syncPolicy:
+    # Ici on défini comment les changements qu'on fait sur git sont gérès par ArgoCD
+    automated: # ArgoCD appique tout seul les changements
+      prune: false # Si on supprime un fichier de notre repo, il ne sera pas pris en compte
+      selfHeal: false # Les changements manuelles qu'on fait sur notre cluster ne sont pas automatiquement revert
