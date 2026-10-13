@@ -34,6 +34,8 @@ A éviter : `minikube start --nodes 10` -> très gourmande en recourses, l'ordi 
 
 `kubectl get pods`
 
+`kubectl describe pod <nom-du-pod`
+
 `kubectl get pods -A`
 
 `kubectl get services`
@@ -57,6 +59,10 @@ A éviter : `minikube start --nodes 10` -> très gourmande en recourses, l'ordi 
 `kubectl logs <pod-name>`
 
 `kubectl get pods -n <namespace>`
+
+`kubectl run broken-pod --image=nginx:does-not-exist` -> commande pour lancer un pod qui tombe en erreur
+
+`kubectl delete pod broken-pod`
 
 #### Lancement des applications
 
