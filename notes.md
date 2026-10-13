@@ -84,7 +84,7 @@ http://myapp.local:8080/dashboard
 
 # Runner
 
-### Installation
+### Installation (Windows)
 
 `New-Item -ItemType Directory -Force -Path C:\GitLab-Runner`
 
