@@ -145,6 +145,8 @@ Repo DockerHub :
 
 Gitlab runner : https://docs.gitlab.com/runner/install/windows/
 
+Doc GitLab CI : https://docs.gitlab.com/ci/
+
 Télécharger Docker Desktop : https://www.docker.com/products/docker-desktop/
 
 Docker cheat sheet : https://www.docker.com/resources/cli-cheat-sheet/
