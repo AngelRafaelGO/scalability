@@ -64,6 +64,8 @@ A éviter : `minikube start --nodes 10` -> très gourmande en recourses, l'ordi 
 
 `kubectl delete pod broken-pod`
 
+`kubectl scale deployment <deployment-name> --replicas=0` -> arrêter un deployment
+
 #### Lancement des applications
 
 `kubectl apply -f postgres-secret.yaml`

@@ -50,5 +50,9 @@ suspend fun Application.configureExposed() {
             log.info("Message deleted with id: $id")
             call.respond(HttpStatusCode.NoContent)
         }
+
+        get("/api/health") {
+            call.respond(HttpStatusCode.OK, "API is running")
+        }
     }
 }

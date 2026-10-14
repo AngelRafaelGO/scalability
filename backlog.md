@@ -41,6 +41,7 @@ paginate: true
   - Déploiement automatique sur votre Minikube, à l'aide d'un Runner installé sur votre PC
   - Architecture GitLab réfléchi : vous devrez expliquer votre choix
   - La pipeline doit déployer sur les environnements de dev et de prod indépendamment
+- Répo dédié pour votre CD : uniquement avec vos fichieres Kubernetes. -> Le source code des application se trouve dans un autre repo : CI
 
 ---
 
